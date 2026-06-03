@@ -1,0 +1,26 @@
+name: Java CI/CD with Maven
+
+# Le robot se déclenche à chaque push ou pull-request sur la branche principale
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Le robot utilise Linux
+
+    steps:
+      - name: 1. Récupérer le code du projet
+        uses: actions/checkout@v4
+
+      - name: 2. Configurer Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin' # Version d'entreprise de Java
+          cache: 'maven' # Mémorise les dépendances pour aller plus vite
+
+      - name: 3. Compiler et exécuter les tests avec Maven
+        run: mvn clean verify
