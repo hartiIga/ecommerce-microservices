@@ -1,6 +1,5 @@
-name: Java CI/CD with Maven
+name: Java CI/CD Pipeline
 
-# Le robot se déclenche à chaque push ou pull-request sur la branche principale
 on:
   push:
     branches: [ "main", "master" ]
@@ -8,19 +7,26 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest # Le robot utilise Linux
+  build-and-test:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: 1. Récupérer le code du projet
-        uses: actions/checkout@v4
+      # 1. Récupère le code du dépôt GitHub, [actions] : nom de l'organisation ou du créateur du plugin ici c'est l'équipe officielle de GitHub.
+      - name: Checkout source code
+        uses: actions/checkout@v4 #outil qui clone le code du projet sur le serveur virtuel de GitHub pour qu'il travaille dessus, @v4 : numéro de version
 
-      - name: 2. Configurer Java 21
-        uses: actions/setup-java@v4
+      # 2. Installe Java
+      - name: Set up JDK 21
+        uses: actions/actions-setup-java@v4 #plugin officiel pour installer Java.
         with:
           java-version: '21'
-          distribution: 'temurin' # Version d'entreprise de Java
-          cache: 'maven' # Mémorise les dépendances pour aller plus vite
+          distribution: 'correto'
+          cache: 'maven' # Cache automatique pour accélérer les futurs builds
 
-      - name: 3. Compiler et exécuter les tests avec Maven
-        run: mvn clean verify
+      # 3. Donne les droits d'exécution au fichier mvnw que vous avez pushé
+      - name: Grant execute permission for mvnw
+        run: chmod +x mvnw
+
+      # 4. Compile le code et exécute les tests unitaires
+      - name: Build and Test with Maven
+        run: ./mvnw clean verify
