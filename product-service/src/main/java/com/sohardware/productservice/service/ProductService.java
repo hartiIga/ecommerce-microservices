@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -39,6 +40,10 @@ public class ProductService {
         }
     }
 
+    /*
+        Si la base de données est vide, renvoie une liste vide [], ce qui n'est pas null et ne fait pas planter l'application.
+        L'usage de l'Optional n'est donc pas nécessaire pour récupérer tout le catalogue.
+    */
     public List<ProductResponse> getAllProducts() {
         // Design Pattern d'entreprise : On récupère les ENTITÉS de la BDD et on les transforme en DTO (Records)
         return productRepository.findAll()
@@ -51,5 +56,29 @@ public class ProductService {
                         entity.getStockQuantity()
                 ))
                 .toList();
+    }
+
+    public ProductResponse getProductById(String id) {
+        //renvoie obligatoirement un Optional<ProductEntity>
+        Optional<ProductEntity> optionalProduct = productRepository.findById(id);
+
+        /*
+            >>>WARNING<<<<
+             TOUJOURS lever l'exception dans le Service car il est le gardien des règles métiers
+         */
+
+        // Norme d'entreprise : On extrait la valeur si elle existe, sinon on lève une exception métier personnalisée
+        ProductEntity entity = optionalProduct.orElseThrow(() ->
+                new IllegalArgumentException("Le composant informatique avec l'ID " + id + " est introuvable.")
+        );
+
+        // On transforme l'entité trouvée en DTO (Record)
+        return new ProductResponse(
+                entity.getId(),
+                entity.getName(),
+                entity.getDescription(),
+                entity.getPrice(),
+                entity.getStockQuantity()
+        );
     }
 }
