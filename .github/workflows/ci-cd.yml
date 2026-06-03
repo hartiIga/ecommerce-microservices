@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v4 #plugin officiel pour installer Java.
         with:
           java-version: '21'
-          distribution: 'correto'
+          distribution: 'corretto'
           cache: 'maven' # Cache automatique pour accélérer les futurs builds
 
       # 3. Donne les droits d'exécution au fichier mvnw que vous avez pushé
