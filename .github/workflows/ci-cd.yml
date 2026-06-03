@@ -17,7 +17,7 @@ jobs:
 
       # 2. Installe Java
       - name: Set up JDK 21
-        uses: actions/actions-setup-java@v4 #plugin officiel pour installer Java.
+        uses: actions/setup-java@v4 #plugin officiel pour installer Java.
         with:
           java-version: '21'
           distribution: 'correto'
