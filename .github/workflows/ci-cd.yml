@@ -1,16 +1,17 @@
-name: Java CI/CD Pipeline
+name: Java CI/CD Pipeline #Optionnel mais recommandé
 
-on:
+on: #LE DÉCLENCHEUR : Quand le robot doit-il se réveiller ?
   push:
     branches: [ "main", "master" ]
   pull_request:
     branches: [ "main", "master" ]
 
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
+# LES MISSIONS : Qu'est-ce que le robot doit faire ?
+jobs: #Bloc qui s'exécute sur une seule machine virtuelle, Si plusieurs jobs, GitHub va démarrer plusieurs ordinateurs en parallèle dans son Cloud
+  job-build-and-test:  #nom du job libre
+    runs-on: ubuntu-latest #Système d'exploitation du serveur
 
-    steps:
+    steps: #obligatoire, s'exécutent l'une après l'autre, dans l'ordre exact d'écriture, sur la même machine
       # 1. Récupère le code du dépôt GitHub, [actions] : nom de l'organisation ou du créateur du plugin ici c'est l'équipe officielle de GitHub.
       - name: Checkout source code
         uses: actions/checkout@v4 #outil qui clone le code du projet sur le serveur virtuel de GitHub pour qu'il travaille dessus, @v4 : numéro de version
