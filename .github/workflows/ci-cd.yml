@@ -29,5 +29,7 @@ jobs: #Bloc qui s'exécute sur une seule machine virtuelle, Si plusieurs jobs, G
         run: chmod +x mvnw
 
       # 4. Compile le code et exécute les tests unitaires
+        #--batch-mode : Indique à Maven qu'il tourne sur un serveur automatique. Cela nettoie les logs en évitant d'afficher des barres de téléchargement inutiles
+        #--fail-at-end : C'est l'option clé pour le multi-modules. Elle ordonne à Maven de scanner tous les sous-modules déclarés, d'exécuter l'intégralité des tests de chaque enfant, et de ne donner son verdict (vert ou rouge) qu'à la toute fin.
       - name: Build and Test with Maven
-        run: ./mvnw clean verify
+        run: ./mvnw clean verify --batch-mode --fail-at-end
