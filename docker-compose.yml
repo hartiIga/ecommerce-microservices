@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # C'est l'identifiant de notre conteneur pour Docker
+  postgres-product:
+    image: postgres:16-alpine # Version d'entreprise, ultra-légère et sécurisée
+    container_name: sohardware-postgres-product
+    environment:
+      POSTGRES_DB: product_db       # Le nom de la base de données dédiée aux produits
+      POSTGRES_USER: postgres       # L'administrateur
+      POSTGRES_PASSWORD: password   # Le mot de passe (environnement de dev)
+    ports:
+      - "5432:5432" # On mappe le port interne du conteneur (5432) sur votre machine locale (5432)
+    volumes:
+      - postgres_product_data:/var/lib/postgresql/data #Prends le dossier virtuel postgres_product_data(en bas) et fusionne-le avec le dossier interne de PostgreSQL (/var/lib/postgresql/data) où sont stockées les tables SQL
+
+# Le volume garantit que la data restera sauvegardé même si vous éteignez Docker
+volumes:
+  # Volume Nommé Managé par Docker
+  #il existe les Bind Mounts(chemin absolu) mais en entreprise, on interdit, car pas inter OS (linux, mac, win)
+  postgres_product_data: # Je te donne juste le nom. Docker, va gérer l'emplacement physique du dossier sur le dd, avec les réglages de sécurité par défaut
+
+
+#>>>>>WARNING<<<<<<
+#pour supprimer le volume en meme temps que le conteneur sinon il prendra de la place de façon invisible : docker compose down -v
