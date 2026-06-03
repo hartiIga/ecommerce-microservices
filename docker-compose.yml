@@ -1,5 +1,6 @@
-version: '3.8'
+name: sohardware-ecommerce-microservices
 
+# commande pour lancer: docker compose up -d
 services:
   # C'est l'identifiant de notre conteneur pour Docker
   postgres-product:
