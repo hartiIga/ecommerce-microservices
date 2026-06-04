@@ -8,7 +8,7 @@ on: #LE DÉCLENCHEUR : Quand le robot doit-il se réveiller ?
 
 # LES MISSIONS : Qu'est-ce que le robot doit faire ?
 jobs: #Bloc qui s'exécute sur une seule machine virtuelle, Si plusieurs jobs, GitHub va démarrer plusieurs ordinateurs en parallèle dans son Cloud
-  job-build-and-test:  #nom du job libre
+  job-build-and-test:  #nom du job nommage libre
     runs-on: ubuntu-latest #Système d'exploitation du serveur
 
     steps: #obligatoire, s'exécutent l'une après l'autre, dans l'ordre exact d'écriture, sur la même machine
