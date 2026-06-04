@@ -19,12 +19,12 @@ import java.math.BigDecimal;
 public class ProductEntity {
 
     /*
-    - l'UUID (Universally Unique Identifier). Une chaîne de 36 caractères totalement imprévisible
-    - pourquoi? : Si vos ID de produits sont séquentiels, un concurrent peut aller sur votre site,
-      regarder l'ID du dernier produit créé (ex: http://sohardware.com) et savoir exactement combien d'articles vous avez dans votre catalogue.
-      Pire, pour les Commandes, cela expose directement votre volume de ventes.
-     - Spring Boot 4 / Hibernate 6 : utilisent UUIDv7 6 -> naturellement triés par ordre chronologique de création
- */
+        - l'UUID (Universally Unique Identifier). Une chaîne de 36 caractères totalement imprévisible
+        - pourquoi? : Si vos ID de produits sont séquentiels, un concurrent peut aller sur votre site,
+          regarder l'ID du dernier produit créé (ex: http://sohardware.com) et savoir exactement combien d'articles vous avez dans votre catalogue.
+          Pire, pour les Commandes, cela expose directement votre volume de ventes.
+         - Spring Boot 4 / Hibernate 6 : utilisent UUIDv7 6 -> naturellement triés par ordre chronologique de création
+     */
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID) // Standard entreprise : Hibernate génère et injecte l'UUID automatiquement au format String lors du .save()
@@ -33,7 +33,6 @@ public class ProductEntity {
     private String description;
     private BigDecimal price;
     private int stockQuantity;
-
 
     public ProductEntity(String name, String description, BigDecimal price, int stockQuantity) {
         this.name = name;
