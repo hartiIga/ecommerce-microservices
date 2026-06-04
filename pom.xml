@@ -21,6 +21,9 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <spring-boot.version>3.5.14</spring-boot.version>
+        <cucumber.version>7.15.0</cucumber.version> <!-- cucumber a son propre BOM -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <dependencyManagement>
@@ -31,6 +34,14 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope> <!-- importation du BOM officiel de Spring -->
+            </dependency>
+
+            <dependency><!-- cucumber a son propre BOM -->
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-bom</artifactId>
+                <version>${cucumber.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

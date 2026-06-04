@@ -57,6 +57,14 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- CORRECTIF SÉCURITÉ (CVE-2024-25710) : Force l'utilisation d'une version saine de commons-compress importé normalement par spring-boot-testcontainers -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>1.26.1</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Testcontainers Postgres : Pour permettre à JUnit de piloter des bases PostgreSQL dans Docker -->
         <dependency>
             <groupId>org.testcontainers</groupId>
@@ -70,6 +78,37 @@
             <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
+
+
+        <!-- Cucumber Java : Permet de lier les phrases en français à du code Java -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Cucumber Spring : Permet à Cucumber de partager le contexte et les Beans de Spring Boot -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Cucumber JUnit Platform Engine : Permet à JUnit 5 de détecter et lancer Cucumber -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit-platform-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!--  Fournit l'API pour les suites de tests JUnit 5 (@Suite) -->
+        <!-- sinon sureFire ignorera les classes qui n'ont pas @Test et donc les tests cucumber-->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
 
     </dependencies>
 
