@@ -26,7 +26,7 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/{id}") // Écoute sur /api/v1/products/{id}
+    @GetMapping("/{id}")
     public ProductResponse getProductById(@PathVariable String id) {
         return productService.getProductById(id);
     }
