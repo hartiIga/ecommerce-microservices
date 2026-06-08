@@ -15,12 +15,26 @@ services:
     volumes:
       - postgres_product_data:/var/lib/postgresql/data #Prends le dossier virtuel postgres_product_data(en bas) et fusionne-le avec le dossier interne de PostgreSQL (/var/lib/postgresql/data) où sont stockées les tables SQL
 
+  # 2. Le serveur SonarQube : pwd hkTATTOO87.admin
+  # token: sqp_eb4791886167a524af170a590ed1b9cc7b7312a9
+  sonarqube:
+    image: sonarqube:community # Version stable officielle communautaire
+    container_name: sohardware-sonarqube
+    ports:
+      - "9000:9000" # SonarQube expose son interface web sur le port 9000
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+
 # Le volume garantit que la data restera sauvegardé même si vous éteignez Docker
 volumes:
   # Volume Nommé Managé par Docker
   #il existe les Bind Mounts(chemin absolu) mais en entreprise, on interdit, car pas inter OS (linux, mac, win)
   postgres_product_data: # Je te donne juste le nom. Docker, va gérer l'emplacement physique du dossier sur le dd, avec les réglages de sécurité par défaut
-
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
 
 #>>>>>WARNING<<<<<<
 #pour supprimer le volume en meme temps que le conteneur sinon il prendra de la place de façon invisible : docker compose down -v

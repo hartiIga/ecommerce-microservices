@@ -24,6 +24,8 @@
         <cucumber.version>7.15.0</cucumber.version> <!-- cucumber a son propre BOM -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <sonarqube.version>5.6.0.6792</sonarqube.version>
+        <sonar.projectKey>sohardware</sonar.projectKey>
     </properties>
 
     <dependencyManagement>
@@ -45,4 +47,15 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <!-- Plugin officiel SonarQube pour centraliser les analyses de tous nos microservices -->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonarqube.version}</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>
