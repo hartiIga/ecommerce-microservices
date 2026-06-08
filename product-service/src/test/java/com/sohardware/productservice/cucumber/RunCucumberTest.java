@@ -8,7 +8,7 @@ import org.junit.platform.suite.api.Suite;
 
 @Suite // Dit à JUnit 5 d'exécuter une suite de tests complets
 @IncludeEngines("cucumber") // Force JUnit à utiliser le moteur Cucumber pour cette suite
-@SelectClasspathResource("features") // Indique où chercher nos fichiers .feature en français
+@SelectClasspathResource("features") // Indique où chercher nos fichiers. feature en français
 @ConfigurationParameter(
         key = Constants.GLUE_PROPERTY_NAME,
         value = "com.sohardware.productservice.cucumber" //On dit explicitement à JUnit où sont rangés nos fichiers Java de liaison (Glue)

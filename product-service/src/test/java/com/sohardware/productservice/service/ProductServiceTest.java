@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class) // Active le moteur Mockito pour JUnit 5, permet à Mockito de gérer automatiquement les annotations @Mock et @InjectMocks
+@ActiveProfiles("test")
 public class ProductServiceTest {
 
     @Mock // Demande à Mockito de créer une fausse copie (doublure) du Repository
@@ -43,8 +45,8 @@ public class ProductServiceTest {
 
         // 3. ASSERT (On vérifie avec AssertJ que le résultat est conforme aux exigences)
         assertThat(result).hasSize(1);
-        assertThat(result.get(0).id()).isEqualTo("uuid-test-123");
-        assertThat(result.get(0).name()).isEqualTo("RTX 5090");
+        assertThat(result.getFirst().id()).isEqualTo("uuid-test-123");
+        assertThat(result.getFirst().name()).isEqualTo("RTX 5090");
 
         /*
             >>WARNING<<
@@ -52,7 +54,7 @@ public class ProductServiceTest {
             (problème d'échelle/scale).
             L'outil AssertJ possède isEqualByComparingTo spécifiquement pour comparer uniquement la valeur mathématique pure
          */
-        assertThat(result.get(0).price()).isEqualByComparingTo(new BigDecimal("2499.99"));
+        assertThat(result.getFirst().price()).isEqualByComparingTo(new BigDecimal("2499.99"));
     }
 
     @Test

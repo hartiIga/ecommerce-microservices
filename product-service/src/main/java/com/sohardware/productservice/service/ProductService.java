@@ -26,7 +26,7 @@ public class ProductService {
 //            new ProductResponse("3", "Corsair Dominator 64GB DDR5", "Kit mémoire haute performance 6000MHz", new BigDecimal("289.50"), 110)
 //    );
 
-    // @PostConstruct dit à Spring d'exécuter cette méthode UNE FOIS que le service est démarré
+    // @PostConstruct dit à Spring d'exécuter cette méthode UNE FOIS que CE service est démarré
     //s'exécute plus tôt que CommandLineRunner qui lui s'exécute tout à la fin
     @PostConstruct
     public void initDatabase() {
