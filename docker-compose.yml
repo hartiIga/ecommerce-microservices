@@ -15,6 +15,18 @@ services:
     volumes:
       - postgres_product_data:/var/lib/postgresql/data #Prends le dossier virtuel postgres_product_data(en bas) et fusionne-le avec le dossier interne de PostgreSQL (/var/lib/postgresql/data) où sont stockées les tables SQL
 
+  postgres-order:
+    image: postgres:16-alpine # Version d'entreprise, ultra-légère et sécurisée
+    container_name: sohardware-postgres-order
+    environment:
+      POSTGRES_DB: order_db       # Le nom de la base de données dédiée aux commandes
+      POSTGRES_USER: postgres       # L'administrateur
+      POSTGRES_PASSWORD: password   # Le mot de passe
+    ports:
+      - "5433:5432" # On mappe le port interne du conteneur (5433) sur votre machine locale (5433)"
+    volumes:
+      - postgres_order_data:/var/lib/postgresql/data
+
   # 2. Le serveur SonarQube : pwd hkTATTOO87.admin
   # token: sqp_eb4791886167a524af170a590ed1b9cc7b7312a9
   sonarqube:
@@ -32,6 +44,7 @@ volumes:
   # Volume Nommé Managé par Docker
   #il existe les Bind Mounts(chemin absolu) mais en entreprise, on interdit, car pas inter OS (linux, mac, win)
   postgres_product_data: # Je te donne juste le nom. Docker, va gérer l'emplacement physique du dossier sur le dd, avec les réglages de sécurité par défaut
+  postgres_order_data:
   sonarqube_data:
   sonarqube_extensions:
   sonarqube_logs:

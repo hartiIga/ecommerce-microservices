@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 @RestControllerAdvice // Dit à Spring d'intercepter les exceptions de tous les contrôleurs
 public class GlobalExceptionHandler {
