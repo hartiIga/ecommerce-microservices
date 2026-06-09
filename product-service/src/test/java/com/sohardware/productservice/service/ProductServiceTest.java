@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class) // Active le moteur Mockito pour JUnit 5, permet à Mockito de gérer automatiquement les annotations @Mock et @InjectMocks
 @ActiveProfiles("test")
@@ -27,6 +28,7 @@ public class ProductServiceTest {
 
     @InjectMocks // Crée le vrai ProductService et y injecte automatiquement le faux repository ci-dessus
     private ProductService productService;
+
 
     @Test
     @DisplayName("Devrait retourner la liste de tous les produits transformés en DTO")
@@ -55,6 +57,31 @@ public class ProductServiceTest {
             L'outil AssertJ possède isEqualByComparingTo spécifiquement pour comparer uniquement la valeur mathématique pure
          */
         assertThat(result.getFirst().price()).isEqualByComparingTo(new BigDecimal("2499.99"));
+    }
+
+    @Test
+    @DisplayName("Devrait retourner la liste de tous les produits transformés en DTO paginé")
+    void shouldReturnAllProductsWithPagination() {
+        //pattern Triple-A (Arrange, Act, Assert)
+
+        // 1. ARRANGEMENT (On prépare les fausses données que la BDD est censée renvoyer)
+        ProductEntity mockEntity = new ProductEntity("RTX 5090", "GPU", new BigDecimal("2499.99"), 10);
+        mockEntity.setId("uuid-test-123");
+
+        //pagination: fausse implémentation de Page via Spring Data
+        org.springframework.data.domain.Page<ProductEntity> mockPage = new org.springframework.data.domain.PageImpl<>(List.of(mockEntity));
+
+        //any pour dire que la valeur exacte n'a pas d'importance, seul l'objet compte
+        when(productRepository.findAll(any(org.springframework.data.domain.Pageable.class)))
+                .thenReturn(mockPage);
+
+        // 2. ACT (On demande la page 0 avec une taille de 10)
+        org.springframework.data.domain.Page<ProductResponse> result = productService.getAllProducts(0, 10);
+
+        // 3. ASSERT (On vérifie avec AssertJ que le résultat est conforme aux exigences)
+        assertThat(result).hasSize(1);  // Le contenu de la page a 1 élément
+        assertThat(result.getContent().getFirst().name()).isEqualTo("RTX 5090");
+        assertThat(result.getTotalElements()).isEqualTo(1); // La métadonnée globale est exacte
     }
 
     @Test

@@ -4,6 +4,10 @@ import com.sohardware.productservice.dto.ProductResponse;
 import com.sohardware.productservice.entity.ProductEntity;
 import com.sohardware.productservice.entity.ProductRepository;
 import jakarta.annotation.PostConstruct;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -80,5 +84,19 @@ public class ProductService {
                 entity.getPrice(),
                 entity.getStockQuantity()
         );
+    }
+
+    public Page<ProductResponse> getAllProducts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
+
+        Page<ProductEntity> productPage = productRepository.findAll(pageable);
+
+        return productPage.map(entity -> new ProductResponse(
+                entity.getId(),
+                entity.getName(),
+                entity.getDescription(),
+                entity.getPrice(),
+                entity.getStockQuantity()
+        ));
     }
 }
