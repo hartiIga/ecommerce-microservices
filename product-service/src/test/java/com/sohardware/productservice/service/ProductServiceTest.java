@@ -4,11 +4,14 @@ package com.sohardware.productservice.service;
 import com.sohardware.productservice.dto.ProductResponse;
 import com.sohardware.productservice.entity.ProductEntity;
 import com.sohardware.productservice.entity.ProductRepository;
+import com.sohardware.productservice.mapper.ProductMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -19,7 +22,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 
-@ExtendWith(MockitoExtension.class) // Active le moteur Mockito pour JUnit 5, permet à Mockito de gérer automatiquement les annotations @Mock et @InjectMocks
+// Active le moteur Mockito pour JUnit 5, permet à Mockito de gérer automatiquement les annotations @Mock et @InjectMocks
+@ExtendWith(MockitoExtension.class)//WARNING : Spring n'est pas démarré, donc les dépendances ne s'injectent pas toutes seules.
 @ActiveProfiles("test")
 public class ProductServiceTest {
 
@@ -29,6 +33,8 @@ public class ProductServiceTest {
     @InjectMocks // Crée le vrai ProductService et y injecte automatiquement le faux repository ci-dessus
     private ProductService productService;
 
+    @Spy//crée une vraie instance du mapper et on demande à Mockito de la surveiller/l'injecter
+    private ProductMapper productMapper = Mappers.getMapper(ProductMapper.class); // toujours l'initialiser lors de sa déclaration, ici Mappers.getMapper founir par mapStruc, sinon utiliser contructeur
 
     @Test
     @DisplayName("Devrait retourner la liste de tous les produits transformés en DTO")

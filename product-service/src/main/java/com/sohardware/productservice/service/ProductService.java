@@ -3,6 +3,7 @@ package com.sohardware.productservice.service;
 import com.sohardware.productservice.dto.ProductResponse;
 import com.sohardware.productservice.entity.ProductEntity;
 import com.sohardware.productservice.entity.ProductRepository;
+import com.sohardware.productservice.mapper.ProductMapper;
 import jakarta.annotation.PostConstruct;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,12 +19,14 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, ProductMapper productMapper) {
         this.productRepository = productRepository;
+        this.productMapper = productMapper;
     }
 
-    // On simule une liste de composants informatiques
+// On simule une liste de composants informatiques
 //    private final List<ProductResponse> products = List.of(
 //            new ProductResponse("1", "NVIDIA RTX 5090", "La carte graphique ultime pour le gaming et l'IA", new BigDecimal("2499.99"), 15),
 //            new ProductResponse("2", "AMD Ryzen 9 9950X", "Processeur 16 cœurs ultra-puissant", new BigDecimal("649.00"), 42),
@@ -50,16 +53,7 @@ public class ProductService {
     */
     public List<ProductResponse> getAllProducts() {
         // Design Pattern d'entreprise : On récupère les ENTITÉS de la BDD et on les transforme en DTO (Records)
-        return productRepository.findAll()
-                .stream()
-                .map(entity -> new ProductResponse(
-                        entity.getId(), // L'ID généré automatiquement par Hibernate
-                        entity.getName(),
-                        entity.getDescription(),
-                        entity.getPrice(),
-                        entity.getStockQuantity()
-                ))
-                .toList();
+        return productRepository.findAll().stream().map(productMapper::toResponse).toList();
     }
 
     public ProductResponse getProductById(String id) {
@@ -77,13 +71,7 @@ public class ProductService {
         );
 
         // On transforme l'entité trouvée en DTO (Record)
-        return new ProductResponse(
-                entity.getId(),
-                entity.getName(),
-                entity.getDescription(),
-                entity.getPrice(),
-                entity.getStockQuantity()
-        );
+        return productMapper.toResponse(entity);
     }
 
     public Page<ProductResponse> getAllProducts(int page, int size) {
@@ -91,12 +79,16 @@ public class ProductService {
 
         Page<ProductEntity> productPage = productRepository.findAll(pageable);
 
-        return productPage.map(entity -> new ProductResponse(
-                entity.getId(),
-                entity.getName(),
-                entity.getDescription(),
-                entity.getPrice(),
-                entity.getStockQuantity()
-        ));
+
+        return productPage.map(productMapper::toResponse);
+
+        //old way
+        //        return productPage.map(entity -> new ProductResponse(
+        //                entity.getId(),
+        //                entity.getName(),
+        //                entity.getDescription(),
+        //                entity.getPrice(),
+        //                entity.getStockQuantity()
+        //        ));
     }
 }

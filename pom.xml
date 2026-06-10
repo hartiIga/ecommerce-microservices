@@ -27,6 +27,9 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <sonarqube.version>5.6.0.6792</sonarqube.version>
         <sonar.projectKey>sohardware</sonar.projectKey>
+        <lombok.version>1.18.36</lombok.version>
+        <org.mapstruct.version>1.6.3</org.mapstruct.version>
+        <org.apache.commons.version>1.26.1</org.apache.commons.version>
     </properties>
 
     <dependencyManagement>
@@ -46,6 +49,12 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${org.mapstruct.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -56,6 +65,37 @@
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>${sonarqube.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <!-- ⚠️ OBLIGATOIRE : Le compilateur a besoin des versions explicitées ici, -->
+                    <!-- car il ne sait pas lire le <dependencyManagement> pour les annotation processors -->
+                    <annotationProcessorPaths>
+                        <!-- 1. Lombok : On utilise la propriété injectée par le BOM Spring -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+
+                        <!-- 2. Liaison Lombok-MapStruct -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+
+                        <!-- 3. MapStruct Processor -->
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
             </plugin>
         </plugins>
     </build>

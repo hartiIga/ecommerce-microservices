@@ -15,8 +15,6 @@ import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.data.domain.Pageable;
-
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -71,7 +69,7 @@ class ProductServiceApplicationTest {
     }
 
     @Test
-    @DisplayName("Devrait insérer un produit en BDD et le récupérer via l'API REST")
+    @DisplayName("Devrait insérer un produit en BDD et le récupérer paginé via l'API REST")
     void shouldCreateAndFetchProductWithPagination() {
         // 1. ARRANGEMENT : On insère un composant réel directement en BDD
 
